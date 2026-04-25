@@ -35,6 +35,10 @@ nav a:hover {
   text-underline-offset: 18px;
 }
 
+.skip-link {
+  display: none;
+}
+
 .bird {
   position: absolute;
   display: flex;
@@ -48,13 +52,17 @@ nav a:hover {
   max-width: 1190px;
   margin: 56px auto;
   display: flex;
+  gap: 10px;
+  align-items: flex-start;
 }
 
 .content-left {
   position: relative;
   background-color: white;
   width: 290px;
+  flex-shrink: 0;
 }
+
 .cover-pic {
   display: flex;
   background-color: black;
@@ -88,12 +96,24 @@ nav a:hover {
   border: #ffffff 3px solid;
 }
 
+.profile-name {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.profile-tag {
+  color: grey;
+}
+
 .profile-stats {
   display: flex;
   justify-content: space-around;
+  padding: 10px 0;
 }
+
 .profile-stats p {
   margin: 0;
+  font-size: 13px;
 }
 
 .stats-color {
@@ -105,8 +125,9 @@ nav a:hover {
   display: flex;
   flex-direction: column;
   background-color: white;
-  gap: 20px;
   border: 3px solid #e6ecf0;
+  width: 610px;
+  flex-shrink: 0;
 }
 
 .tweet {
@@ -115,6 +136,8 @@ nav a:hover {
   min-height: 51px;
   width: 610px;
   gap: 10px;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .tweet img {
@@ -123,14 +146,14 @@ nav a:hover {
   border-radius: 50%;
 }
 
-.tweet-content p {
-  margin: 0;
-}
-
 .tweet-content {
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+
+.tweet-content p {
+  margin: 0;
 }
 
 .tweet-handle {
@@ -146,7 +169,93 @@ nav a:hover {
   color: rgb(110, 110, 110);
 }
 
+.tweet-description {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
 .tweet-description span {
   font-size: 14px;
   font-weight: bold;
+}
+
+.highlight {
+  color: rgb(29, 161, 242);
+  font-weight: bold;
+}
+
+.content-right {
+  background-color: white;
+  width: 290px;
+  padding: 15px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.content-right h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.follow-card {
+  display: flex;
+  gap: 10px;
+  border-bottom: 1px solid #e6ecf0;
+  padding: 10px 0;
+}
+
+.follow-card img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.follow-card p {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+}
+
+.follow-card button {
+  border: 1px solid rgb(29, 161, 242);
+  color: rgb(29, 161, 242);
+  background-color: white;
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.follow-card button:hover {
+  background-color: #e8f5fe;
+}
+
+@media (max-width: 1200px) {
+  .content-right {
+    display: none;
+  }
+
+  .content-wrapper {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 700px) {
+  nav {
+    gap: 20px;
+    padding: 0 20px;
+  }
+
+  nav a {
+    font-size: 12px;
+  }
+
+  .content-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content-center,
+  .tweet {
+    width: 95vw;
+  }
 }
