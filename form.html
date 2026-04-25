@@ -3,7 +3,87 @@
   <head>
     <meta charset="UTF-8" />
     <title>Highlander Day Registration</title>
-    <link rel="stylesheet" href="form.css" />
+    <style>
+      body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background-color: #e6ecf0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #1da1f2;
+      }
+
+      form {
+        background-color: white;
+        padding: 30px;
+        border-radius: 8px;
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      label {
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      input,
+      select {
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      input.invalid,
+      select.invalid {
+        border: 2px solid red;
+      }
+
+      .error {
+        color: red;
+        font-size: 12px;
+        margin: 0;
+        min-height: 16px;
+      }
+
+      button {
+        padding: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 20px;
+        border: none;
+        cursor: pointer;
+      }
+
+      #submit-btn {
+        background-color: #1da1f2;
+        color: white;
+      }
+
+      #submit-btn:disabled {
+        background-color: #a8d8f8;
+        cursor: not-allowed;
+      }
+
+      #reset-btn {
+        background-color: white;
+        border: 1px solid #1da1f2;
+        color: #1da1f2;
+      }
+    </style>
   </head>
   <body>
     <h1>Highlander Day Registration</h1>
@@ -53,6 +133,114 @@
       <button type="submit" id="submit-btn" disabled>Submit</button>
       <button type="button" id="reset-btn">Reset</button>
     </form>
-    <script src="form.js"></script>
+
+    <script>
+      function isValidEmail(value) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      }
+
+      function isValidPhone(value) {
+        return /^\d{10}$/.test(value);
+      }
+
+      function validateField(inputId, errorId, validationFn, errorMessage) {
+        const input = document.getElementById(inputId);
+        const error = document.getElementById(errorId);
+        const isValid = validationFn(input.value);
+
+        if (!isValid) {
+          input.classList.add("invalid");
+          error.textContent = errorMessage;
+        } else {
+          input.classList.remove("invalid");
+          error.textContent = "";
+        }
+
+        return isValid;
+      }
+
+      function validateAll() {
+        const firstNameValid = validateField(
+          "first-name",
+          "first-name-error",
+          (v) => v.trim() !== "",
+          "First name is required."
+        );
+        const lastNameValid = validateField(
+          "last-name",
+          "last-name-error",
+          (v) => v.trim() !== "",
+          "Last name is required."
+        );
+        const emailValid = validateField(
+          "email",
+          "email-error",
+          (v) => isValidEmail(v),
+          "Please enter a valid email address."
+        );
+        const phoneValid = validateField(
+          "phone",
+          "phone-error",
+          (v) => isValidPhone(v),
+          "Please enter a valid 10-digit phone number."
+        );
+        const yearValid = validateField(
+          "year",
+          "year-error",
+          (v) => v !== "",
+          "Please select your year."
+        );
+        const majorValid = validateField(
+          "major",
+          "major-error",
+          (v) => v.trim() !== "",
+          "Major is required."
+        );
+
+        const allValid =
+          firstNameValid &&
+          lastNameValid &&
+          emailValid &&
+          phoneValid &&
+          yearValid &&
+          majorValid;
+
+        document.getElementById("submit-btn").disabled = !allValid;
+      }
+
+      const fields = [
+        "first-name",
+        "last-name",
+        "email",
+        "phone",
+        "year",
+        "major",
+      ];
+
+      fields.forEach((id) => {
+        const el = document.getElementById(id);
+        el.addEventListener("input", validateAll);
+        el.addEventListener("change", validateAll);
+      });
+
+      document
+        .getElementById("registration-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          alert("Registration submitted successfully!");
+        });
+
+      document
+        .getElementById("reset-btn")
+        .addEventListener("click", function () {
+          fields.forEach((id) => {
+            const el = document.getElementById(id);
+            el.value = "";
+            el.classList.remove("invalid");
+            document.getElementById(id + "-error").textContent = "";
+          });
+          document.getElementById("submit-btn").disabled = true;
+        });
+    </script>
   </body>
 </html>
