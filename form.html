@@ -14,7 +14,6 @@
       }
 
       h1 {
-        text-align: center;
         color: #1da1f2;
       }
 
@@ -101,9 +100,31 @@
       </div>
 
       <div class="field">
-        <label for="email">Email *</label>
-        <input type="text" id="email" placeholder="email@example.com" />
-        <p class="error" id="email-error"></p>
+        <label for="dob">Date of Birth *</label>
+        <input type="date" id="dob" />
+        <p class="error" id="dob-error"></p>
+      </div>
+
+      <div class="field">
+        <label for="college">College *</label>
+        <select id="college">
+          <option value="">-- Select College --</option>
+          <option value="BCOE">BCOE</option>
+          <option value="CNAS">CNAS</option>
+          <option value="CHASS">CHASS</option>
+          <option value="SOB">SOB</option>
+          <option value="SPP">SPP</option>
+          <option value="SOE">SOE</option>
+        </select>
+        <p class="error" id="college-error"></p>
+      </div>
+
+      <div class="field">
+        <label for="major">Major *</label>
+        <select id="major" disabled>
+          <option value="">-- Select College First --</option>
+        </select>
+        <p class="error" id="major-error"></p>
       </div>
 
       <div class="field">
@@ -113,21 +134,22 @@
       </div>
 
       <div class="field">
-        <label for="year">Year *</label>
-        <select id="year">
-          <option value="">-- Select Year --</option>
-          <option value="freshman">Freshman</option>
-          <option value="sophomore">Sophomore</option>
-          <option value="junior">Junior</option>
-          <option value="senior">Senior</option>
-        </select>
-        <p class="error" id="year-error"></p>
+        <label for="email">Email Address *</label>
+        <input type="text" id="email" placeholder="email@example.com" />
+        <p class="error" id="email-error"></p>
       </div>
 
       <div class="field">
-        <label for="major">Major *</label>
-        <input type="text" id="major" placeholder="e.g. Computer Science" />
-        <p class="error" id="major-error"></p>
+        <label>
+          <input type="checkbox" id="subscribe" />
+          Subscribe to UCR Events
+        </label>
+      </div>
+
+      <div class="field">
+        <label for="guests">Number of Guests *</label>
+        <input type="number" id="guests" min="1" placeholder="Minimum 1" />
+        <p class="error" id="guests-error"></p>
       </div>
 
       <button type="submit" id="submit-btn" disabled>Submit</button>
@@ -135,12 +157,64 @@
     </form>
 
     <script>
+      const majorOptions = {
+        BCOE: ["Computer Science", "Computer Engineering"],
+        CNAS: ["Biology", "Chemistry", "Mathematics"],
+        CHASS: ["Psychology", "Sociology", "History"],
+        SOB: ["Business Administration", "Accounting"],
+        SPP: ["Public Policy"],
+        SOE: ["Education"],
+      };
+
+      // Dynamically populate major dropdown based on college
+      document
+        .getElementById("college")
+        .addEventListener("change", function () {
+          const major = document.getElementById("major");
+          const selected = this.value;
+
+          major.innerHTML = "";
+
+          if (!selected) {
+            major.innerHTML =
+              '<option value="">-- Select College First --</option>';
+            major.disabled = true;
+          } else {
+            major.innerHTML = '<option value="">-- Select Major --</option>';
+            majorOptions[selected].forEach(function (m) {
+              const opt = document.createElement("option");
+              opt.value = m;
+              opt.textContent = m;
+              major.appendChild(opt);
+            });
+            major.disabled = false;
+          }
+
+          validateAll();
+        });
+
       function isValidEmail(value) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
       }
 
       function isValidPhone(value) {
         return /^\d{10}$/.test(value);
+      }
+
+      function isValidAge(value) {
+        if (!value) return false;
+        const today = new Date();
+        const dob = new Date(value);
+        const age = today.getFullYear() - dob.getFullYear();
+        const monthDiff = today.getMonth() - dob.getMonth();
+        const dayDiff = today.getDate() - dob.getDate();
+        const exactAge =
+          age - (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0) ? 1 : 0);
+        return exactAge >= 16;
+      }
+
+      function isLettersOnly(value) {
+        return /^[a-zA-Z]+$/.test(value.trim());
       }
 
       function validateField(inputId, errorId, validationFn, errorMessage) {
@@ -163,20 +237,32 @@
         const firstNameValid = validateField(
           "first-name",
           "first-name-error",
-          (v) => v.trim() !== "",
-          "First name is required."
+          (v) => isLettersOnly(v),
+          "First name is required and must contain only letters."
         );
         const lastNameValid = validateField(
           "last-name",
           "last-name-error",
-          (v) => v.trim() !== "",
-          "Last name is required."
+          (v) => isLettersOnly(v),
+          "Last name is required and must contain only letters."
         );
-        const emailValid = validateField(
-          "email",
-          "email-error",
-          (v) => isValidEmail(v),
-          "Please enter a valid email address."
+        const dobValid = validateField(
+          "dob",
+          "dob-error",
+          (v) => isValidAge(v),
+          "You must be at least 16 years old."
+        );
+        const collegeValid = validateField(
+          "college",
+          "college-error",
+          (v) => v !== "",
+          "Please select a college."
+        );
+        const majorValid = validateField(
+          "major",
+          "major-error",
+          (v) => v !== "",
+          "Please select a major."
         );
         const phoneValid = validateField(
           "phone",
@@ -184,26 +270,28 @@
           (v) => isValidPhone(v),
           "Please enter a valid 10-digit phone number."
         );
-        const yearValid = validateField(
-          "year",
-          "year-error",
-          (v) => v !== "",
-          "Please select your year."
+        const emailValid = validateField(
+          "email",
+          "email-error",
+          (v) => isValidEmail(v),
+          "Please enter a valid email address."
         );
-        const majorValid = validateField(
-          "major",
-          "major-error",
-          (v) => v.trim() !== "",
-          "Major is required."
+        const guestsValid = validateField(
+          "guests",
+          "guests-error",
+          (v) => v !== "" && parseInt(v) >= 1,
+          "Number of guests must be at least 1."
         );
 
         const allValid =
           firstNameValid &&
           lastNameValid &&
-          emailValid &&
+          dobValid &&
+          collegeValid &&
+          majorValid &&
           phoneValid &&
-          yearValid &&
-          majorValid;
+          emailValid &&
+          guestsValid;
 
         document.getElementById("submit-btn").disabled = !allValid;
       }
@@ -211,13 +299,15 @@
       const fields = [
         "first-name",
         "last-name",
-        "email",
-        "phone",
-        "year",
+        "dob",
+        "college",
         "major",
+        "phone",
+        "email",
+        "guests",
       ];
 
-      fields.forEach((id) => {
+      fields.forEach(function (id) {
         const el = document.getElementById(id);
         el.addEventListener("input", validateAll);
         el.addEventListener("change", validateAll);
@@ -233,12 +323,21 @@
       document
         .getElementById("reset-btn")
         .addEventListener("click", function () {
-          fields.forEach((id) => {
+          fields.forEach(function (id) {
             const el = document.getElementById(id);
             el.value = "";
             el.classList.remove("invalid");
-            document.getElementById(id + "-error").textContent = "";
+            const errorEl = document.getElementById(id + "-error");
+            if (errorEl) errorEl.textContent = "";
           });
+
+          // Reset major dropdown
+          const major = document.getElementById("major");
+          major.innerHTML =
+            '<option value="">-- Select College First --</option>';
+          major.disabled = true;
+
+          document.getElementById("subscribe").checked = false;
           document.getElementById("submit-btn").disabled = true;
         });
     </script>
