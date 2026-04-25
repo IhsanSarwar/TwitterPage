@@ -1,63 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <link rel="stylesheet" type="text/css" href="index.css" />
+    <title>Twitter Mockup</title>
   </head>
+
   <body>
-    <nav>
-      <a href=""> Home </a>
-      <a href=""> Moments</a>
-      <a href=""> Notifications</a>
-      <a href=""> Messages</a>
+    <nav role="navigation">
+      <a class="skip-link" href="#main-content">Skip to main content</a>
+
+      <a href="">Home</a>
+      <a href="">Moments</a>
+      <a href="">Notifications</a>
+      <a href="">Messages</a>
+
       <div class="bird">
         <img src="images/twitter-logo.png" alt="Twitter Logo" width="30" />
       </div>
     </nav>
-    <!-- TODO: Create HTML elements for Twitter mockup inside body -->
+
     <div class="content-wrapper">
       <div class="content-left">
         <div class="cover-pic">
           <img
             src="images/ratatouille-banner.png"
-            alt="Cover Picture Ratatoullie"
+            alt="Ratatouille cover banner"
           />
         </div>
+
         <div class="profile-pic">
-          <img src="images/ratatouille.jpg" alt="Profile Picture Ratatoullie" />
+          <img src="images/ratatouille.jpg" alt="Profile picture of Remy" />
+
           <div>
-            <p style="text-decoration: underline; font-weight: bold">Remy</p>
-            <p style="color: grey">@remy</p>
+            <p class="profile-name">Remy</p>
+            <p class="profile-tag">@remy</p>
           </div>
         </div>
+
         <div class="profile-stats">
-          <div class="Tweets">
+          <div>
             <p>Tweets</p>
             <p class="stats-color">5049</p>
           </div>
-          <div class="Following">
+
+          <div>
             <p>Following</p>
             <p class="stats-color">324</p>
           </div>
-          <div class="Followers">
+
+          <div>
             <p>Followers</p>
             <p class="stats-color">809</p>
           </div>
         </div>
       </div>
 
-      <div class="content-center">
+      <div class="content-center" id="main-content" role="main">
         <div class="tweet">
           <div class="tweet-pic">
-            <img
-              src="images/ratatouille.jpg"
-              alt="Profile Picture Ratatoullie"
-            />
+            <img src="images/ratatouille.jpg" alt="Profile picture of Remy" />
           </div>
+
           <div class="tweet-content">
             <div class="tweet-handle">
               <p class="tweet-username">Remy</p>
               <p class="tweet-usertag">@remy Nov 19</p>
             </div>
+
             <p class="tweet-description">
               I just joined this class called CS
               <span class="highlight">110</span> and the TA's are all so
@@ -65,75 +74,99 @@
             </p>
           </div>
         </div>
+
         <div class="tweet">
           <div class="tweet-pic">
-            <img
-              src="images/ratatouille.jpg"
-              alt="Profile Picture Ratatoullie"
-            />
+            <img src="images/ratatouille.jpg" alt="Profile picture of Remy" />
           </div>
+
           <div class="tweet-content">
             <div class="tweet-handle">
               <p class="tweet-username">Remy</p>
               <p class="tweet-usertag">@remy Nov 19</p>
             </div>
+
             <p class="tweet-description">
-              It's 2007. You just got home from elementary school. Your mom has pizza bagels in the oven. Ratattoulie is in theaters. Life is good.
+              It's 2007. You just got home from elementary school. Your mom has
+              pizza bagels in the oven. Ratatouille is in theaters. Life is
+              good.
             </p>
           </div>
-      </div>
-      <div class="tweet">
-        <div class="tweet-pic">
-          <img
-            src="images/ratatouille.jpg"
-            alt="Profile Picture Ratatoullie"
-          />
         </div>
-        <div class="tweet-content">
-          <div class="tweet-handle">
-            <p class="tweet-username">Remy</p>
-            <p class="tweet-usertag">@remy Nov 19</p>
+
+        <div class="tweet">
+          <div class="tweet-pic">
+            <img src="images/ratatouille.jpg" alt="Profile picture of Remy" />
           </div>
-          <p class="tweet-description">
-            Lets make some pasta!
-          </p>
+
+          <div class="tweet-content">
+            <div class="tweet-handle">
+              <p class="tweet-username">Remy</p>
+              <p class="tweet-usertag">@remy Nov 19</p>
+            </div>
+
+            <p class="tweet-description">Let's make some pasta!</p>
+          </div>
+        </div>
+
+        <div class="tweet">
+          <div class="tweet-pic">
+            <img src="images/ratatouille.jpg" alt="Profile picture of Remy" />
+          </div>
+
+          <div class="tweet-content">
+            <div class="tweet-handle">
+              <p class="tweet-username">Remy</p>
+              <p class="tweet-usertag">@remy Nov 19</p>
+            </div>
+
+            <p class="tweet-description">
+              Anyone can cook, but only the fearless can be great.
+            </p>
+          </div>
+        </div>
+
+        <div class="tweet">
+          <div class="tweet-pic">
+            <img src="images/ratatouille.jpg" alt="Profile picture of Remy" />
+          </div>
+
+          <div class="tweet-content">
+            <div class="tweet-handle">
+              <p class="tweet-username">Remy</p>
+              <p class="tweet-usertag">@remy Nov 19</p>
+            </div>
+
+            <p class="tweet-description">
+              Working on a new recipe tonight. The kitchen smells amazing.
+            </p>
+          </div>
         </div>
       </div>
-      <div class="tweet">
-        <div class="tweet-pic">
-          <img
-            src="images/ratatouille.jpg"
-            alt="Profile Picture Ratatoullie"
-          />
-        </div>
-        <div class="tweet-content">
-          <div class="tweet-handle">
-            <p class="tweet-username">Remy</p>
-            <p class="tweet-usertag">@remy Nov 19</p>
+
+      <div class="content-right">
+        <h3>Who to follow</h3>
+
+        <div class="follow-card">
+          <img src="images/linguini.png" alt="Profile picture of Linguini" />
+
+          <div>
+            <p><strong>Linguini</strong></p>
+            <p>@linguini</p>
+            <button>Follow</button>
           </div>
-          <p class="tweet-description">
-            Lets make some pasta!
-          </p>
         </div>
-      </div>
-      <div class="tweet">
-        <div class="tweet-pic">
-          <img
-            src="images/ratatouille.jpg"
-            alt="Profile Picture Ratatoullie"
-          />
-        </div>
-        <div class="tweet-content">
-          <div class="tweet-handle">
-            <p class="tweet-username">Remy</p>
-            <p class="tweet-usertag">@remy Nov 19</p>
+
+        <div class="follow-card">
+          <img src="images/ratatouille.jpg" alt="Profile picture of Remy" />
+
+          <div>
+            <p><strong>Chef Remy</strong></p>
+            <p>@chefremy</p>
+            <button>Follow</button>
           </div>
-          <p class="tweet-description">
-            Lets make some pasta!
-          </p>
         </div>
       </div>
     </div>
-    <div class="content-right"></div>
   </body>
 </html>
