@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Highlander Day Registration</title>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background-color: #e6ecf0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px;
+      }
+
+      h1 {
+        color: #1da1f2;
+      }
+
+      form {
+        background-color: white;
+        padding: 30px;
+        border-radius: 8px;
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      label {
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      input,
+      select {
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      input.invalid,
+      select.invalid {
+        border: 2px solid red;
+      }
+
+      .error {
+        color: red;
+        font-size: 12px;
+        margin: 0;
+        min-height: 16px;
+      }
+
+      button {
+        padding: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 20px;
+        border: none;
+        cursor: pointer;
+      }
+
+      #submit-btn {
+        background-color: #1da1f2;
+        color: white;
+      }
+
+      #submit-btn:disabled {
+        background-color: #a8d8f8;
+        cursor: not-allowed;
+      }
+
+      #reset-btn {
+        background-color: white;
+        border: 1px solid #1da1f2;
+        color: #1da1f2;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Highlander Day Registration</h1>
+    <form id="registration-form" novalidate>
+      <div class="field">
+        <label for="first-name">First Name *</label>
+        <input type="text" id="first-name" placeholder="First Name" />
+        <p class="error" id="first-name-error"></p>
+      </div>
+
+      <div class="field">
+        <label for="last-name">Last Name *</label>
+        <input type="text" id="last-name" placeholder="Last Name" />
+        <p class="error" id="last-name-error"></p>
+      </div>
+
+      <div class="field">
+        <label for="dob">Date of Birth *</label>
+        <input type="date" id="dob" />
+        <p class="error" id="dob-error"></p>
+      </div>
+
+      <div class="field">
+        <label for="college">College *</label>
+        <select id="college">
+          <option value="">-- Select College --</option>
+          <option value="BCOE">BCOE</option>
+          <option value="CNAS">CNAS</option>
+          <option value="CHASS">CHASS</option>
+          <option value="SOB">SOB</option>
+          <option value="SPP">SPP</option>
+          <option value="SOE">SOE</option>
+        </select>
+        <p class="error" id="college-error"></p>
+      </div>
+
+      <div class="field">
+        <label for="major">Major *</label>
+        <select id="major" disabled>
+          <option value="">-- Select College First --</option>
+        </select>
+        <p class="error" id="major-error"></p>
+      </div>
+
+      <div class="field">
+        <label for="phone">Phone Number *</label>
+        <input type="text" id="phone" placeholder="10-digit phone number" />
+        <p class="error" id="phone-error"></p>
+      </div>
+
+      <div class="field">
+        <label for="email">Email Address *</label>
+        <input type="text" id="email" placeholder="email@example.com" />
+        <p class="error" id="email-error"></p>
+      </div>
+
+      <div class="field">
+        <label>
+          <input type="checkbox" id="subscribe" />
+          Subscribe to UCR Events
+        </label>
+      </div>
+
+      <div class="field">
+        <label for="guests">Number of Guests *</label>
+        <input type="number" id="guests" min="1" placeholder="Minimum 1" />
+        <p class="error" id="guests-error"></p>
+      </div>
+
+      <button type="submit" id="submit-btn" disabled>Submit</button>
+      <button type="button" id="reset-btn">Reset</button>
+    </form>
+
+    <script>
+      const majorOptions = {
+        BCOE: ["Computer Science", "Computer Engineering"],
+        CNAS: ["Biology", "Chemistry", "Mathematics"],
+        CHASS: ["Psychology", "Sociology", "History"],
+        SOB: ["Business Administration", "Accounting"],
+        SPP: ["Public Policy"],
+        SOE: ["Education"],
+      };
+
+      // Dynamically populate major dropdown based on college
+      document
+        .getElementById("college")
+        .addEventListener("change", function () {
+          const major = document.getElementById("major");
+          const selected = this.value;
+
+          major.innerHTML = "";
+
+          if (!selected) {
+            major.innerHTML =
+              '<option value="">-- Select College First --</option>';
+            major.disabled = true;
+          } else {
+            major.innerHTML = '<option value="">-- Select Major --</option>';
+            majorOptions[selected].forEach(function (m) {
+              const opt = document.createElement("option");
+              opt.value = m;
+              opt.textContent = m;
+              major.appendChild(opt);
+            });
+            major.disabled = false;
+          }
+
+          validateAll();
+        });
+
+      function isValidEmail(value) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      }
+
+      function isValidPhone(value) {
+        return /^\d{10}$/.test(value);
+      }
+
+      function isValidAge(value) {
+        if (!value) return false;
+        const today = new Date();
+        const dob = new Date(value);
+        const age = today.getFullYear() - dob.getFullYear();
+        const monthDiff = today.getMonth() - dob.getMonth();
+        const dayDiff = today.getDate() - dob.getDate();
+        const exactAge =
+          age - (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0) ? 1 : 0);
+        return exactAge >= 16;
+      }
+
+      function isLettersOnly(value) {
+        return /^[a-zA-Z]+$/.test(value.trim());
+      }
+
+      function validateField(inputId, errorId, validationFn, errorMessage) {
+        const input = document.getElementById(inputId);
+        const error = document.getElementById(errorId);
+        const isValid = validationFn(input.value);
+
+        if (!isValid) {
+          input.classList.add("invalid");
+          error.textContent = errorMessage;
+        } else {
+          input.classList.remove("invalid");
+          error.textContent = "";
+        }
+
+        return isValid;
+      }
+
+      function validateAll() {
+        const firstNameValid = validateField(
+          "first-name",
+          "first-name-error",
+          (v) => isLettersOnly(v),
+          "First name is required and must contain only letters."
+        );
+        const lastNameValid = validateField(
+          "last-name",
+          "last-name-error",
+          (v) => isLettersOnly(v),
+          "Last name is required and must contain only letters."
+        );
+        const dobValid = validateField(
+          "dob",
+          "dob-error",
+          (v) => isValidAge(v),
+          "You must be at least 16 years old."
+        );
+        const collegeValid = validateField(
+          "college",
+          "college-error",
+          (v) => v !== "",
+          "Please select a college."
+        );
+        const majorValid = validateField(
+          "major",
+          "major-error",
+          (v) => v !== "",
+          "Please select a major."
+        );
+        const phoneValid = validateField(
+          "phone",
+          "phone-error",
+          (v) => isValidPhone(v),
+          "Please enter a valid 10-digit phone number."
+        );
+        const emailValid = validateField(
+          "email",
+          "email-error",
+          (v) => isValidEmail(v),
+          "Please enter a valid email address."
+        );
+        const guestsValid = validateField(
+          "guests",
+          "guests-error",
+          (v) => v !== "" && parseInt(v) >= 1,
+          "Number of guests must be at least 1."
+        );
+
+        const allValid =
+          firstNameValid &&
+          lastNameValid &&
+          dobValid &&
+          collegeValid &&
+          majorValid &&
+          phoneValid &&
+          emailValid &&
+          guestsValid;
+
+        document.getElementById("submit-btn").disabled = !allValid;
+      }
+
+      const fields = [
+        "first-name",
+        "last-name",
+        "dob",
+        "college",
+        "major",
+        "phone",
+        "email",
+        "guests",
+      ];
+
+      fields.forEach(function (id) {
+        const el = document.getElementById(id);
+        el.addEventListener("input", validateAll);
+        el.addEventListener("change", validateAll);
+      });
+
+      document
+        .getElementById("registration-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          alert("Registration submitted successfully!");
+        });
+
+      document
+        .getElementById("reset-btn")
+        .addEventListener("click", function () {
+          fields.forEach(function (id) {
+            const el = document.getElementById(id);
+            el.value = "";
+            el.classList.remove("invalid");
+            const errorEl = document.getElementById(id + "-error");
+            if (errorEl) errorEl.textContent = "";
+          });
+
+          // Reset major dropdown
+          const major = document.getElementById("major");
+          major.innerHTML =
+            '<option value="">-- Select College First --</option>';
+          major.disabled = true;
+
+          document.getElementById("subscribe").checked = false;
+          document.getElementById("submit-btn").disabled = true;
+        });
+    </script>
+  </body>
+</html>
