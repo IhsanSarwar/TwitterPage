@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Highlander Day Registration</title>
+    <link rel="stylesheet" href="form.css" />
+  </head>
+  <body>
+    <h1>Highlander Day Registration</h1>
+    <form id="registration-form" novalidate>
+      <div class="field">
+        <label for="first-name">First Name *</label>
+        <input type="text" id="first-name" placeholder="First Name" />
+        <p class="error" id="first-name-error"></p>
+      </div>
+
+      <div class="field">
+        <label for="last-name">Last Name *</label>
+        <input type="text" id="last-name" placeholder="Last Name" />
+        <p class="error" id="last-name-error"></p>
+      </div>
+
+      <div class="field">
+        <label for="email">Email *</label>
+        <input type="text" id="email" placeholder="email@example.com" />
+        <p class="error" id="email-error"></p>
+      </div>
+
+      <div class="field">
+        <label for="phone">Phone Number *</label>
+        <input type="text" id="phone" placeholder="10-digit phone number" />
+        <p class="error" id="phone-error"></p>
+      </div>
+
+      <div class="field">
+        <label for="year">Year *</label>
+        <select id="year">
+          <option value="">-- Select Year --</option>
+          <option value="freshman">Freshman</option>
+          <option value="sophomore">Sophomore</option>
+          <option value="junior">Junior</option>
+          <option value="senior">Senior</option>
+        </select>
+        <p class="error" id="year-error"></p>
+      </div>
+
+      <div class="field">
+        <label for="major">Major *</label>
+        <input type="text" id="major" placeholder="e.g. Computer Science" />
+        <p class="error" id="major-error"></p>
+      </div>
+
+      <button type="submit" id="submit-btn" disabled>Submit</button>
+      <button type="button" id="reset-btn">Reset</button>
+    </form>
+    <script src="form.js"></script>
+  </body>
+</html>
