@@ -44,7 +44,109 @@ nav a:hover {
   transform: translateX(-50%);
 }
 
-.content {
+.content-wrapper {
   max-width: 1190px;
   margin: 56px auto;
+  display: flex;
+}
+
+.content-left {
+  position: relative;
+  background-color: white;
+  width: 290px;
+}
+.cover-pic {
+  display: flex;
+  background-color: black;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}
+
+.cover-pic img {
+  width: 60%;
+}
+
+.profile-pic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+}
+
+.profile-pic p {
+  margin: 0;
+}
+
+.profile-pic img {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  top: 50px;
+  left: 10px;
+  border: #ffffff 3px solid;
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: space-around;
+}
+.profile-stats p {
+  margin: 0;
+}
+
+.stats-color {
+  color: rgb(29, 161, 242);
+  font-weight: bold;
+}
+
+.content-center {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  gap: 20px;
+  border: 3px solid #e6ecf0;
+}
+
+.tweet {
+  display: flex;
+  border-bottom: 1px solid #e6ecf0;
+  min-height: 51px;
+  width: 610px;
+  gap: 10px;
+}
+
+.tweet img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.tweet-content p {
+  margin: 0;
+}
+
+.tweet-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tweet-handle {
+  display: flex;
+  gap: 5px;
+}
+
+.tweet-username {
+  font-weight: bold;
+}
+
+.tweet-usertag {
+  color: rgb(110, 110, 110);
+}
+
+.tweet-description span {
+  font-size: 14px;
+  font-weight: bold;
 }
